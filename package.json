@@ -1,0 +1,24 @@
+{
+  "name": "libratech",
+  "version": "1.0.0",
+  "description": "Smart Library Management System",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install --prefix server && npm install --prefix client",
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "dev": "node -e \"console.log('Run npm run dev:server and npm run dev:client in separate terminals')\"",
+    "build:client": "npm run build --prefix client",
+    "seed": "npm run seed --prefix server",
+    "test:server": "npm test --prefix server"
+  },
+  "keywords": [
+    "library-management",
+    "smart-library",
+    "react",
+    "express",
+    "mongodb"
+  ],
+  "author": "",
+  "license": "ISC"
+}
