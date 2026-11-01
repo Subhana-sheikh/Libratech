@@ -10,7 +10,6 @@
   "dependencies": {
     "clsx": "^2.1.1",
     "html5-qrcode": "^2.3.8",
-    "libratech": "file:..",
     "lucide-react": "^0.453.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

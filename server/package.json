@@ -19,7 +19,6 @@
     "express-rate-limit": "^7.4.1",
     "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
-    "libratech": "file:..",
     "mongoose": "^8.7.2",
     "morgan": "^1.10.0",
     "node-cron": "^3.0.3"
