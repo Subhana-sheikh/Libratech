@@ -8,7 +8,7 @@ export const Footer = () => {
     <footer className="bg-[#05070B] border-t border-[#232A3B] mt-auto text-slate-400 select-none">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-10">
-          
+
           {/* Brand Info */}
           <div className="md:col-span-2 space-y-4">
             <LibratechLogo size="md" />
