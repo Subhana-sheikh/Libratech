@@ -9,6 +9,7 @@ import Input from '../../components/ui/Input.jsx';
 import ConfirmationDialog from '../../components/ui/ConfirmationDialog.jsx';
 import Alert from '../../components/ui/Alert.jsx';
 import { TableSkeleton } from '../../components/ui/Skeleton.jsx';
+import { CATEGORIES_DATA } from '../../data/libraryData.js';
 
 export const AdminCategoriesPage = () => {
   const [categories, setCategories] = useState([]);
@@ -29,11 +30,13 @@ export const AdminCategoriesPage = () => {
     setLoading(true);
     try {
       const res = await api.get('/categories');
-      if (res.success) {
-        setCategories(res.data || []);
+      if (res.success && res.data && res.data.length > 0) {
+        setCategories(res.data);
+      } else {
+        setCategories(CATEGORIES_DATA);
       }
     } catch (err) {
-      console.error(err);
+      setCategories(CATEGORIES_DATA);
     } finally {
       setLoading(false);
     }

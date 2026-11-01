@@ -86,14 +86,15 @@ export const HeroSection = ({
               </Link>
 
               <button
+                type="button"
                 onClick={() => {
                   const ebooksEl = document.getElementById('ebooks') || document.getElementById('categories');
                   if (ebooksEl) ebooksEl.scrollIntoView({ behavior: 'smooth' });
                   else navigate('/books');
                 }}
-                className="px-6 py-3.5 rounded-2xl bg-[#151A24] hover:bg-[#1E2535] text-slate-200 hover:text-white font-bold text-sm border border-[#232A3B] hover:border-[#8B5CF6]/50 transition flex items-center gap-2 shadow-md"
+                className="px-6 py-3.5 rounded-2xl bg-[#1E2538] hover:bg-[#28324C] text-white font-black text-sm border border-slate-600/90 hover:border-slate-400 transition flex items-center gap-2 shadow-lg cursor-pointer"
               >
-                <BookOpen className="w-4 h-4 text-[#8B5CF6]" />
+                <BookOpen className="w-4 h-4 text-[#FF4B4B]" />
                 <span>Discover E-Books</span>
               </button>
             </div>

@@ -58,10 +58,11 @@ export const EbooksShowcase = ({ onOpenReader, featuredEbook }) => {
             {featuredEbook && onOpenReader && (
               <div className="pt-2">
                 <button
+                  type="button"
                   onClick={() => onOpenReader(featuredEbook)}
-                  className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-[#FF4B4B] to-[#E03E3E] hover:from-[#FF3333] hover:to-[#FF4B4B] text-white font-extrabold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-[#FF4B4B]/30 hover:scale-105 transition"
+                  className="px-7 py-4 rounded-2xl bg-gradient-to-r from-[#FF4B4B] via-[#E11D48] to-[#FF3333] hover:from-[#FF3333] hover:to-[#FF4B4B] text-white font-black text-sm uppercase tracking-wider flex items-center gap-2.5 shadow-xl shadow-[#FF4B4B]/35 hover:scale-105 transition border border-white/20 cursor-pointer"
                 >
-                  <BookOpen className="w-4 h-4" />
+                  <BookOpen className="w-5 h-5 text-white" />
                   <span>Launch Live E-Book Reader Demo</span>
                   <ArrowRight className="w-4 h-4 ml-1" />
                 </button>

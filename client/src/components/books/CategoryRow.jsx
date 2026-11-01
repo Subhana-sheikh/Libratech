@@ -2,7 +2,8 @@ import React, { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   ChevronLeft, ChevronRight, Terminal, Cpu, Globe,
-  Database, TrendingUp, BookOpen, Zap, Sparkles, ArrowRight
+  Database, TrendingUp, BookOpen, Zap, Sparkles, ArrowRight,
+  UserCheck, Bookmark, Activity, Brain
 } from 'lucide-react';
 import { CATEGORIES_DATA } from '../../data/libraryData.js';
 
@@ -14,7 +15,11 @@ const ICON_MAP = {
   TrendingUp,
   BookOpen,
   Zap,
-  Sparkles
+  Sparkles,
+  UserCheck,
+  Bookmark,
+  Activity,
+  Brain
 };
 
 export const CategoryRow = () => {
@@ -50,7 +55,7 @@ export const CategoryRow = () => {
               Explore by Category
             </h2>
             <span className="px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider bg-[#8B5CF6]/20 text-[#8B5CF6] border border-[#8B5CF6]/40">
-              8 DISCIPLINES
+              {CATEGORIES_DATA.length} DISCIPLINES
             </span>
           </div>
           <p className="text-xs sm:text-sm text-slate-400 mt-0.5">

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   X, Star, BookOpen, Bookmark, ShieldCheck, CheckCircle2,
-  Clock, MapPin, Hash, Building2, Calendar, Share2, Sparkles, ArrowRight
+  Clock, MapPin, Hash, Building2, Calendar, Share2, Sparkles, ArrowRight,
+  Barcode as BarcodeIcon
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import api from '../../services/api.js';
@@ -72,7 +73,7 @@ export const BookDetailsModal = ({
         {/* Top Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-20 p-2.5 rounded-full bg-[#080B12]/80 hover:bg-[#080B12] text-slate-300 hover:text-white border border-[#232A3B] transition shadow-lg"
+          className="absolute top-4 right-4 z-20 p-2.5 rounded-full bg-[#080B12]/80 hover:bg-[#080B12] text-slate-300 hover:text-white border border-[#232A3B] transition shadow-lg cursor-pointer"
           title="Close"
         >
           <X className="w-5 h-5" />
@@ -138,28 +139,30 @@ export const BookDetailsModal = ({
                 </span>
               </div>
 
-              {/* Action Buttons */}
+              {/* Action Buttons with High Contrast */}
               <div className="flex flex-wrap items-center gap-3 pt-3">
                 {book.isEbook && onReadEbook && (
                   <button
+                    type="button"
                     onClick={() => {
                       onClose();
                       onReadEbook(book);
                     }}
-                    className="px-5 py-3 rounded-xl bg-gradient-to-r from-[#FF4B4B] to-[#E03E3E] hover:from-[#FF3333] hover:to-[#FF4B4B] text-white text-xs font-extrabold uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-[#FF4B4B]/30 hover:scale-[1.02] transition"
+                    className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#FF4B4B] to-[#E03E3E] hover:from-[#FF3333] hover:to-[#FF4B4B] text-white text-xs font-black uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-[#FF4B4B]/35 hover:scale-[1.02] transition border border-white/20 cursor-pointer"
                   >
                     <BookOpen className="w-4 h-4" /> Read E-Book Now
                   </button>
                 )}
 
                 <button
+                  type="button"
                   onClick={handleBorrowRequest}
                   disabled={!isAvailable && user?.role === 'STUDENT'}
-                  className={`px-5 py-3 rounded-xl text-xs font-extrabold uppercase tracking-wider flex items-center gap-2 transition ${
+                  className={`px-6 py-3.5 rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-2 transition border border-white/10 cursor-pointer ${
                     borrowSuccess
                       ? 'bg-emerald-600 text-white'
                       : isAvailable
-                      ? 'bg-[#8B5CF6] hover:bg-[#7C3AED] text-white shadow-lg shadow-[#8B5CF6]/30'
+                      ? 'bg-[#8B5CF6] hover:bg-[#7C3AED] text-white shadow-lg shadow-[#8B5CF6]/35'
                       : 'bg-white/10 text-slate-400 cursor-not-allowed'
                   }`}
                 >
@@ -168,17 +171,18 @@ export const BookDetailsModal = ({
                 </button>
 
                 <button
+                  type="button"
                   onClick={handleToggleSave}
                   disabled={saving}
-                  className={`p-3 rounded-xl border transition flex items-center gap-1.5 text-xs font-semibold ${
+                  className={`px-4 py-3.5 rounded-xl border transition flex items-center gap-2 text-xs font-bold cursor-pointer ${
                     isSaved
-                      ? 'bg-[#FF4B4B]/20 text-[#FF4B4B] border-[#FF4B4B]/40'
-                      : 'bg-white/5 hover:bg-white/10 text-slate-300 border-white/10'
+                      ? 'bg-[#FF4B4B]/25 text-[#FF4B4B] border-[#FF4B4B]/50'
+                      : 'bg-[#1E2538] hover:bg-[#28324C] text-white border-slate-600/80 shadow-md'
                   }`}
                   title={isSaved ? 'Saved to reading list' : 'Add to Wishlist'}
                 >
                   <Bookmark className={`w-4 h-4 ${isSaved ? 'fill-current' : ''}`} />
-                  <span className="hidden sm:inline">{isSaved ? 'Saved' : 'Wishlist'}</span>
+                  <span>{isSaved ? 'Saved' : 'Wishlist'}</span>
                 </button>
               </div>
 
@@ -197,11 +201,48 @@ export const BookDetailsModal = ({
             </p>
           </div>
 
+          {/* Barcode & Circulation Identification Card */}
+          <div className="p-4 rounded-2xl bg-[#0C101A] border border-[#232A3B] flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <div className="bg-white p-2 rounded-xl flex flex-col items-center justify-center shrink-0 shadow-md">
+                {/* Visual Barcode Graphic */}
+                <div className="flex items-center gap-[2.5px] h-9 px-1">
+                  {[2,1,3,1,2,3,1,2,1,3,2,1,2,3,1,2,1,3,2,1,3,1,2,3].map((w, idx) => (
+                    <div
+                      key={idx}
+                      className="bg-black h-full rounded-xs"
+                      style={{ width: `${w * 1.5}px` }}
+                    />
+                  ))}
+                </div>
+                <span className="text-[9px] font-mono font-bold text-black tracking-widest mt-0.5">
+                  {book.barcode || book.isbn?.replace(/[^0-9]/g, '').slice(0, 10) || 'BC-LIB-101'}
+                </span>
+              </div>
+
+              <div>
+                <span className="text-[10px] font-black uppercase text-[#FF4B4B] tracking-wider block">
+                  Library Circulation Accession
+                </span>
+                <p className="text-xs font-bold text-white mt-0.5">
+                  Barcode: <strong className="font-mono text-[#8B5CF6]">{book.barcode || 'BC-CAT-099'}</strong>
+                </p>
+                <p className="text-[11px] text-slate-400">
+                  Scan at self-checkout or circulation desk to borrow physical copy.
+                </p>
+              </div>
+            </div>
+
+            <div className="text-xs text-slate-300 font-mono px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 shrink-0">
+              ISBN-13: {book.isbn || '978-0134494166'}
+            </div>
+          </div>
+
           {/* Metadata Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
             <div className="p-3.5 bg-[#080B12] rounded-xl border border-[#232A3B]">
-              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">ISBN</span>
-              <p className="font-mono font-bold text-slate-200 mt-0.5">{book.isbn || '978-0134494166'}</p>
+              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Barcode / Code</span>
+              <p className="font-mono font-bold text-emerald-400 mt-0.5">{book.barcode || 'BC-LIB-01'}</p>
             </div>
 
             <div className="p-3.5 bg-[#080B12] rounded-xl border border-[#232A3B]">

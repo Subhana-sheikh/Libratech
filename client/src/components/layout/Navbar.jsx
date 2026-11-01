@@ -2,13 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
   Search, Bell, Sparkles, User as UserIcon, LogOut,
-  Menu, X, ChevronDown, Check, BookOpen, Layers, Bookmark
+  Menu, X, ChevronDown, Check, BookOpen, Layers, Bookmark,
+  Barcode as BarcodeIcon, ShieldCheck, GraduationCap
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import api from '../../services/api.js';
 import LibratechLogo from '../common/LibratechLogo.jsx';
 
-export const Navbar = ({ onToggleMobileMenu, onToggleAssistant }) => {
+export const Navbar = ({ onToggleMobileMenu, onToggleAssistant, onOpenBarcode, onOpenWelcome }) => {
   const { user, logout, isStudent, isStaff, isAdmin } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -115,11 +116,11 @@ export const Navbar = ({ onToggleMobileMenu, onToggleAssistant }) => {
         <div className="flex items-center justify-between h-16 sm:h-20 gap-4">
           
           {/* Left: Hamburger + LIBRATECH Brand Logo */}
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             {onToggleMobileMenu && (
               <button
                 onClick={onToggleMobileMenu}
-                className="lg:hidden p-2 text-slate-300 hover:text-white hover:bg-white/10 rounded-xl transition"
+                className="xl:hidden p-2 text-slate-300 hover:text-white hover:bg-white/10 rounded-xl transition cursor-pointer"
                 aria-label="Open Navigation Menu"
               >
                 <Menu className="w-5 h-5" />
@@ -129,8 +130,8 @@ export const Navbar = ({ onToggleMobileMenu, onToggleAssistant }) => {
             <LibratechLogo size="md" />
           </div>
 
-          {/* Center: Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-xs font-bold uppercase tracking-wider text-slate-300">
+          {/* Center: Navigation Links (Visible on xl screens 1280px+ to ensure zero overflow on laptops) */}
+          <nav className="hidden xl:flex items-center gap-5 2xl:gap-7 text-xs font-bold uppercase tracking-wider text-slate-300">
             <Link
               to="/"
               className={`transition hover:text-white ${location.pathname === '/' ? 'text-[#FF4B4B]' : ''}`}
@@ -193,8 +194,8 @@ export const Navbar = ({ onToggleMobileMenu, onToggleAssistant }) => {
             </a>
           </nav>
 
-          {/* Right: Search, Notifications, Auth CTA */}
-          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          {/* Right: Search, Notifications, Barcode, AI Assistant, Auth CTA */}
+          <div className="flex items-center gap-1.5 sm:gap-2.5 min-w-0 shrink">
             
             {/* Expandable Search Field */}
             <div className="relative">
@@ -292,32 +293,57 @@ export const Navbar = ({ onToggleMobileMenu, onToggleAssistant }) => {
               </div>
             )}
 
+            {/* Barcode Scanner Trigger Button */}
+            {onOpenBarcode && (
+              <button
+                type="button"
+                onClick={onOpenBarcode}
+                className="flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl bg-[#1E2538] hover:bg-[#28324C] border border-slate-600/80 hover:border-[#FF4B4B]/70 text-white transition text-xs font-black shadow-md cursor-pointer shrink-0"
+                title="Universal Barcode & ISBN Scanner"
+              >
+                <BarcodeIcon className="w-4 h-4 text-[#FF4B4B]" />
+                <span className="hidden md:inline">Barcode</span>
+              </button>
+            )}
+
             {/* AI Assistant Drawer Trigger */}
             {onToggleAssistant && (
               <button
                 onClick={onToggleAssistant}
-                className="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-xl bg-gradient-to-r from-[#8B5CF6]/20 to-[#FF4B4B]/20 border border-[#8B5CF6]/40 text-slate-200 hover:text-white transition text-xs font-bold"
+                className="hidden lg:flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl bg-gradient-to-r from-[#8B5CF6]/25 to-[#FF4B4B]/25 border border-[#8B5CF6]/50 text-white hover:brightness-110 transition text-xs font-black shadow-md shrink-0"
                 title="AI Library Assistant"
               >
                 <Sparkles className="w-3.5 h-3.5 text-[#8B5CF6]" />
-                <span>AI Assistant</span>
+                <span className="hidden 2xl:inline">AI Assistant</span>
               </button>
+            )}
+
+            {/* Direct Admin Panel Pill if Logged In as Admin */}
+            {user && user.role === 'ADMIN' && (
+              <Link
+                to="/admin"
+                className="hidden md:flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-[#FF4B4B]/20 border border-[#FF4B4B]/50 hover:bg-[#FF4B4B]/30 text-white font-black text-xs shadow-md transition shrink-0"
+                title="Go to Admin Control Panel"
+              >
+                <ShieldCheck className="w-3.5 h-3.5 text-[#FF4B4B]" />
+                <span className="hidden lg:inline">Admin Panel</span>
+              </Link>
             )}
 
             {/* Auth Buttons: Sign In / Prominent Get Started OR Profile Dropdown */}
             {user ? (
-              <div className="relative" ref={profileRef}>
+              <div className="relative min-w-0" ref={profileRef}>
                 <button
                   onClick={() => setShowProfileMenu(!showProfileMenu)}
-                  className="flex items-center gap-2 p-1.5 sm:px-3 sm:py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-[#232A3B] transition"
+                  className="flex items-center gap-1.5 sm:gap-2 p-1.5 sm:px-2.5 sm:py-2 rounded-xl bg-[#1E2538] hover:bg-[#28324C] border border-slate-600/80 transition shadow-sm cursor-pointer min-w-0 max-w-[130px] sm:max-w-[170px]"
                 >
-                  <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#FF4B4B] to-[#8B5CF6] text-white flex items-center justify-center font-bold text-xs uppercase shadow-sm">
+                  <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#FF4B4B] to-[#8B5CF6] text-white flex items-center justify-center font-bold text-xs uppercase shadow-sm shrink-0">
                     {user.name.charAt(0)}
                   </div>
-                  <span className="hidden sm:inline text-xs font-bold text-white max-w-[100px] truncate">
+                  <span className="text-xs font-black text-white truncate min-w-0">
                     {user.name}
                   </span>
-                  <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+                  <ChevronDown className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                 </button>
 
                 {showProfileMenu && (
@@ -386,16 +412,27 @@ export const Navbar = ({ onToggleMobileMenu, onToggleAssistant }) => {
                 )}
               </div>
             ) : (
-              <div className="flex items-center gap-2 sm:gap-3">
+              <div className="flex items-center gap-2 sm:gap-2.5">
+                {onOpenWelcome && (
+                  <button
+                    type="button"
+                    onClick={onOpenWelcome}
+                    className="hidden sm:flex items-center gap-1 px-3 py-2 rounded-xl bg-[#1E2538] hover:bg-[#28324C] border border-slate-600/80 text-white font-extrabold text-xs transition shadow-sm"
+                    title="Choose Portal Role (Admin, Teacher, Guest)"
+                  >
+                    <span>Roles</span>
+                  </button>
+                )}
+
                 <Link
                   to="/login"
-                  className="px-3.5 py-2 text-xs font-bold text-slate-200 hover:text-white transition"
+                  className="px-3.5 py-2 text-xs font-black text-white hover:text-[#FF4B4B] transition rounded-xl hover:bg-white/5"
                 >
                   Sign In
                 </Link>
 
                 <Link to="/register">
-                  <button className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-gradient-to-r from-[#FF4B4B] to-[#8B5CF6] hover:scale-105 text-white font-extrabold text-xs uppercase tracking-wider transition shadow-lg shadow-[#FF4B4B]/30">
+                  <button className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-gradient-to-r from-[#FF4B4B] to-[#8B5CF6] hover:scale-105 text-white font-black text-xs uppercase tracking-wider transition shadow-lg shadow-[#FF4B4B]/35 border border-white/20 cursor-pointer">
                     Get Started
                   </button>
                 </Link>

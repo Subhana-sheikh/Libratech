@@ -7,10 +7,12 @@
     "install:all": "npm install --prefix server && npm install --prefix client",
     "dev:server": "npm run dev --prefix server",
     "dev:client": "npm run dev --prefix client",
-    "dev": "node -e \"console.log('Run npm run dev:server and npm run dev:client in separate terminals')\"",
+    "dev": "node start-dev.js",
+    "start": "node start-dev.js",
     "build:client": "npm run build --prefix client",
     "seed": "npm run seed --prefix server",
-    "test:server": "npm test --prefix server"
+    "test:server": "npm test --prefix server",
+    "git:push": "git add -A && git commit -m \"Update Libratech project\" && git push"
   },
   "keywords": [
     "library-management",

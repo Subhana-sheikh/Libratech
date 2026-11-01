@@ -30,6 +30,13 @@ export const Footer = () => {
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               <span>Libratech OS v2.0 • All Systems Operational</span>
             </div>
+
+            <div className="pt-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-[#FF4B4B]/20 to-[#8B5CF6]/20 border border-[#FF4B4B]/35 text-white font-black text-xs shadow-md">
+                <Sparkles className="w-3.5 h-3.5 text-[#FF4B4B]" />
+                <span>Made by @subhana sheikh</span>
+              </div>
+            </div>
           </div>
 
           {/* Quick Discovery */}
@@ -99,8 +106,10 @@ export const Footer = () => {
         </div>
 
         {/* Bottom Bar with Socials & Legal */}
-        <div className="mt-12 pt-8 border-t border-[#232A3B] flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-          <p>© {new Date().getFullYear()} LIBRATECH Systems. All rights reserved.</p>
+        <div className="mt-12 pt-8 border-t border-[#232A3B] flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
+          <p className="font-semibold text-slate-300">
+            © {new Date().getFullYear()} LIBRATECH Systems · Made with <Heart className="w-3.5 h-3.5 inline text-[#FF4B4B] mx-0.5 fill-current" /> by <span className="text-[#FF4B4B] font-extrabold tracking-wide">@subhana sheikh</span>
+          </p>
 
           <div className="flex items-center gap-6">
             <span className="hover:text-slate-300 cursor-pointer">Privacy Policy</span>

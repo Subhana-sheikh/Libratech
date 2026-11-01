@@ -90,6 +90,7 @@ export const BooksPage = () => {
                 b.title.toLowerCase().includes(q) ||
                 b.authors.some(a => a.toLowerCase().includes(q)) ||
                 b.isbn.toLowerCase().includes(q) ||
+                (b.barcode && b.barcode.toLowerCase().includes(q)) ||
                 b.description.toLowerCase().includes(q)
               );
             }
@@ -114,6 +115,7 @@ export const BooksPage = () => {
               b.title.toLowerCase().includes(q) ||
               b.authors.some(a => a.toLowerCase().includes(q)) ||
               b.isbn.toLowerCase().includes(q) ||
+              (b.barcode && b.barcode.toLowerCase().includes(q)) ||
               b.description.toLowerCase().includes(q)
             );
           }

@@ -132,40 +132,58 @@ export const NetflixBookCard = ({
               </div>
             )}
 
-            {/* Quick Action Buttons (reveals smoothly on hover or mobile tap) */}
-            <div className="pt-2 flex items-center gap-2 opacity-95 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300">
+            {/* Quick Action Buttons - Always Prominent & Visible */}
+            <div className="pt-2 flex items-center gap-2 opacity-100 transition-all duration-200">
               {isEbook && onReadEbook ? (
                 <button
+                  type="button"
                   onClick={(e) => {
                     e.stopPropagation();
                     onReadEbook(book);
                   }}
-                  className="flex-1 py-1.5 px-2 rounded-lg bg-[#FF4B4B] hover:bg-[#FF3333] text-white text-[11px] font-extrabold uppercase tracking-wider flex items-center justify-center gap-1 shadow-md shadow-[#FF4B4B]/30 transition"
+                  className="flex-1 py-2 px-2.5 rounded-xl bg-gradient-to-r from-[#FF4B4B] to-[#E03E3E] hover:from-[#FF3333] hover:to-[#FF4B4B] text-white text-[11px] font-black uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-lg shadow-[#FF4B4B]/35 border border-white/20 transition-all hover:scale-[1.02] cursor-pointer"
                   title="Open Digital Reader"
                 >
-                  <BookOpen className="w-3.5 h-3.5" /> Read Now
+                  <BookOpen className="w-3.5 h-3.5 shrink-0" /> Read E-Book
                 </button>
               ) : (
                 <button
+                  type="button"
                   onClick={(e) => {
                     e.stopPropagation();
                     onOpenDetails && onOpenDetails(book);
                   }}
-                  className="flex-1 py-1.5 px-2 rounded-lg bg-[#8B5CF6] hover:bg-[#7C3AED] text-white text-[11px] font-extrabold uppercase tracking-wider flex items-center justify-center gap-1 shadow-md shadow-[#8B5CF6]/30 transition"
+                  className="flex-1 py-2 px-2.5 rounded-xl bg-[#8B5CF6] hover:bg-[#7C3AED] text-white text-[11px] font-black uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-lg shadow-[#8B5CF6]/35 border border-white/20 transition-all hover:scale-[1.02] cursor-pointer"
                 >
-                  <Eye className="w-3.5 h-3.5" /> Quick View
+                  <Eye className="w-3.5 h-3.5 shrink-0" /> Quick View
+                </button>
+              )}
+
+              {/* Details button if ebook button is showing */}
+              {isEbook && onReadEbook && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onOpenDetails && onOpenDetails(book);
+                  }}
+                  className="p-2 rounded-xl bg-[#1E2538] hover:bg-[#28324C] text-slate-200 hover:text-white border border-slate-600/80 transition shadow-sm cursor-pointer"
+                  title="View Book Details"
+                >
+                  <Eye className="w-3.5 h-3.5" />
                 </button>
               )}
 
               {/* Bookmark Save Button */}
               {user && (
                 <button
+                  type="button"
                   onClick={handleToggleSave}
                   disabled={saving}
-                  className={`p-2 rounded-lg border transition ${
+                  className={`p-2 rounded-xl border transition cursor-pointer ${
                     isSaved
-                      ? 'bg-[#FF4B4B]/20 text-[#FF4B4B] border-[#FF4B4B]/40'
-                      : 'bg-black/40 hover:bg-black/70 text-slate-300 border-white/10'
+                      ? 'bg-[#FF4B4B]/25 text-[#FF4B4B] border-[#FF4B4B]/50'
+                      : 'bg-[#1E2538] hover:bg-[#28324C] text-slate-200 border-slate-600/80'
                   }`}
                   title={isSaved ? 'Saved in reading list' : 'Add to Wishlist'}
                 >

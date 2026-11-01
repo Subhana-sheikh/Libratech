@@ -3,10 +3,12 @@
 @tailwind utilities;
 
 @layer base {
-  body {
+  html, body {
     @apply bg-[#080B12] text-slate-100 antialiased selection:bg-[#FF4B4B]/30 selection:text-white;
     font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
     color-scheme: dark;
+    overflow-x: hidden;
+    max-width: 100vw;
   }
 }
 

@@ -57,9 +57,15 @@ export const EbookReaderModal = ({ isOpen, onClose, book, initialChapter = 0 }) 
   };
 
   const themeStyles = {
-    dark: 'bg-[#080B12] text-slate-200 border-[#232A3B]',
-    sepia: 'bg-[#FBF0D9] text-[#5F4B32] border-[#E8D4B4]',
-    light: 'bg-[#FFFFFF] text-slate-800 border-slate-200'
+    dark: 'bg-[#080B12] text-slate-100 border-[#232A3B]',
+    sepia: 'bg-[#FBF0D9] text-[#3D2C1D] border-[#E8D4B4]',
+    light: 'bg-[#F8FAFC] text-[#0F172A] border-slate-200'
+  };
+
+  const headingColors = {
+    dark: 'text-white',
+    sepia: 'text-[#23120B]',
+    light: 'text-[#0A0E17]'
   };
 
   return (
@@ -189,44 +195,55 @@ export const EbookReaderModal = ({ isOpen, onClose, book, initialChapter = 0 }) 
         {/* Content Container */}
         <main className={`flex-1 overflow-y-auto px-6 sm:px-16 lg:px-32 py-12 transition-colors duration-200 ${themeStyles[theme]}`}>
           <div className="max-w-3xl mx-auto space-y-8">
-            {/* Chapter Header */}
-            <div className="space-y-2 pb-6 border-b border-current opacity-20">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#FF4B4B]">
-                Chapter {currentChapterIdx + 1} of {chapters.length}
-              </span>
-              <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight">
+            {/* Chapter Header with high contrast bold dark styling */}
+            <div className={`space-y-3 pb-6 border-b ${theme === 'dark' ? 'border-slate-800' : theme === 'sepia' ? 'border-[#E2CEAE]' : 'border-slate-300'}`}>
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-black uppercase tracking-widest text-[#FF4B4B] bg-[#FF4B4B]/10 px-3 py-1 rounded-full border border-[#FF4B4B]/30">
+                  Chapter {currentChapterIdx + 1} of {chapters.length}
+                </span>
+                <span className="text-[11px] font-bold text-slate-400">
+                  {book.title}
+                </span>
+              </div>
+              <h1 className={`text-2xl sm:text-4xl font-black tracking-tight leading-tight ${headingColors[theme]}`}>
                 {currentChapter.title}
               </h1>
             </div>
 
             {/* Reading Text */}
             <div
-              style={{ fontSize: `${fontSize}px`, lineHeight: 1.8 }}
-              className="space-y-6 font-serif whitespace-pre-line tracking-normal select-text"
+              style={{ fontSize: `${fontSize}px`, lineHeight: 1.85 }}
+              className="space-y-6 font-serif whitespace-pre-line tracking-normal select-text text-justify"
             >
               {currentChapter.content}
             </div>
 
-            {/* Bottom Chapter Navigation */}
-            <div className="pt-12 border-t border-current opacity-20 flex items-center justify-between gap-4">
+            {/* Bottom Chapter Navigation - Ultra-Visible Buttons */}
+            <div className={`pt-10 mt-12 border-t ${theme === 'dark' ? 'border-slate-800' : theme === 'sepia' ? 'border-[#E2CEAE]' : 'border-slate-300'} flex items-center justify-between gap-4`}>
               <button
+                type="button"
                 disabled={currentChapterIdx === 0}
                 onClick={() => setCurrentChapterIdx(prev => prev - 1)}
-                className="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 disabled:opacity-30 disabled:pointer-events-none text-xs font-bold flex items-center gap-1.5 transition"
+                className="px-5 py-3 rounded-xl bg-[#1E2538] hover:bg-[#28324C] text-white disabled:opacity-30 disabled:pointer-events-none text-xs sm:text-sm font-extrabold flex items-center gap-2 transition shadow-md border border-slate-600/80 cursor-pointer"
               >
-                <ChevronLeft className="w-4 h-4" /> Previous Chapter
+                <ChevronLeft className="w-4 h-4 text-[#FF4B4B]" />
+                <span>Previous Chapter</span>
               </button>
 
-              <span className="text-xs font-sans opacity-60">
-                {progressPercent}% completed
-              </span>
+              <div className="text-center">
+                <span className="text-xs font-sans font-bold px-3 py-1.5 rounded-full bg-black/10 border border-current/10">
+                  {progressPercent}% completed
+                </span>
+              </div>
 
               <button
+                type="button"
                 disabled={currentChapterIdx === chapters.length - 1}
                 onClick={() => setCurrentChapterIdx(prev => prev + 1)}
-                className="px-4 py-2.5 rounded-xl bg-[#FF4B4B] hover:bg-[#FF3333] disabled:opacity-30 disabled:pointer-events-none text-white text-xs font-bold flex items-center gap-1.5 transition shadow-lg shadow-[#FF4B4B]/20"
+                className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#FF4B4B] to-[#E03E3E] hover:from-[#FF3333] hover:to-[#FF4B4B] disabled:opacity-30 disabled:pointer-events-none text-white text-xs sm:text-sm font-extrabold flex items-center gap-2 transition shadow-lg shadow-[#FF4B4B]/35 border border-white/20 cursor-pointer"
               >
-                Next Chapter <ChevronRight className="w-4 h-4" />
+                <span>Next Chapter</span>
+                <ChevronRight className="w-4 h-4 text-white" />
               </button>
             </div>
           </div>

@@ -12,6 +12,7 @@ import Pagination from '../../components/ui/Pagination.jsx';
 import { TableSkeleton } from '../../components/ui/Skeleton.jsx';
 import EmptyState from '../../components/ui/EmptyState.jsx';
 import Alert from '../../components/ui/Alert.jsx';
+import { BOOKS_DATA } from '../../data/libraryData.js';
 
 export const AdminBooksPage = () => {
   const [books, setBooks] = useState([]);
@@ -46,12 +47,21 @@ export const AdminBooksPage = () => {
         page,
         limit: 15
       });
-      if (res.success) {
+      if (res.success && res.data && res.data.length > 0) {
         setBooks(res.data || []);
         if (res.pagination) setPagination(res.pagination);
+      } else {
+        setBooks(BOOKS_DATA);
+        setPagination({ page: 1, pages: 1, total: BOOKS_DATA.length });
       }
     } catch (err) {
-      console.error(err);
+      let filtered = [...BOOKS_DATA];
+      if (search.trim()) {
+        const q = search.toLowerCase();
+        filtered = filtered.filter(b => b.title.toLowerCase().includes(q) || b.isbn.toLowerCase().includes(q));
+      }
+      setBooks(filtered);
+      setPagination({ page: 1, pages: 1, total: filtered.length });
     } finally {
       setLoading(false);
     }

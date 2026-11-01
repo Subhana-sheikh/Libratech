@@ -44,13 +44,26 @@ export const connectDB = async () => {
 ========================================================================
 [MONGODB SETUP NOTICE]
 MongoDB could not be reached at: ${uri}
+The server will continue running and auto-retry connecting in the background.
 Please make sure:
-1. Local MongoDB service is running (e.g. net start MongoDB or mongod)
+1. Local MongoDB service is running (e.g. mongod or net start MongoDB)
    OR
 2. Provide a valid MongoDB Atlas connection string in server/.env:
    MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/smart_library
 ========================================================================
 `);
+    
+    // Background automatic reconnect loop every 5 seconds
+    const retryInterval = setInterval(async () => {
+      try {
+        await mongoose.connect(uri, { serverSelectionTimeoutMS: 2500 });
+        console.log('✅ [Database] MongoDB connected successfully in background!');
+        clearInterval(retryInterval);
+      } catch (e) {
+        // Silently retry in background
+      }
+    }, 5000);
+
     return null;
   }
 };

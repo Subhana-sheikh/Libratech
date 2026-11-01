@@ -48,11 +48,11 @@ export const runSeed = async () => {
   const defaultPasswordHash = await User.hashPassword('Password@123');
 
   const admin = await User.create({
-    name: 'Dr. Evelyn Carter (Admin)',
+    name: 'Subhana Sheikh (Admin)',
     email: 'admin@libratech.edu',
     passwordHash: defaultPasswordHash,
     role: ROLES.ADMIN,
-    department: 'Library Administration',
+    department: 'Chief Library Administration',
     isActive: true
   });
 
