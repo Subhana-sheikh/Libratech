@@ -12,7 +12,7 @@
     "build:client": "npm run build --prefix client",
     "seed": "npm run seed --prefix server",
     "test:server": "npm test --prefix server",
-    "git:push": "git add -A && git commit -m \"Update Libratech project\" && git push"
+    "git:push": "node git-sync.js"
   },
   "keywords": [
     "library-management",
